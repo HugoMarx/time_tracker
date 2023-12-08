@@ -20,7 +20,7 @@ class Slot
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $endTime = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $totalTime = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]

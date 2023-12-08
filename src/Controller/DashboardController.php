@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Slot;
 use App\Form\SlotFormType;
 use App\Repository\SlotRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +19,8 @@ class DashboardController extends AbstractController
     public function index(
         SlotRepository $slotRepository,
         ChartBuilderInterface $chartBuilder,
-        Request $request
+        Request $request,
+        EntityManagerInterface $em
     ): Response {
 
         $slot = new Slot();
@@ -27,7 +29,8 @@ class DashboardController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $slotRepository->save($slot, true);
+            $em->persist($slot);
+            $em->flush();
         }
 
         $rawData = $slotRepository->findAll();
