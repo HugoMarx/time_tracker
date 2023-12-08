@@ -13,7 +13,7 @@ class DashboardController extends AbstractController
     public function index(SlotRepository $slotRepository): Response
     {
 
-        dd($slotRepository->findAll());
+       // dd($slotRepository->findAll());
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',
         ]);
