@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Slot;
+use App\Form\SlotFormType;
 use App\Repository\SlotRepository;
 use Symfony\UX\Chartjs\Model\Chart;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
@@ -14,11 +17,22 @@ class DashboardController extends AbstractController
     #[Route('/dashboard', name: 'app_dashboard')]
     public function index(
         SlotRepository $slotRepository,
-        ChartBuilderInterface $chartBuilder
+        ChartBuilderInterface $chartBuilder,
+        Request $request
     ): Response {
 
+        $slot = new Slot();
+        $form = $this->createForm(SlotFormType::class, $slot);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $slotRepository->save($slot, true);
+        }
 
         $rawData = $slotRepository->findAll();
+
+        dump($rawData);
 
         $data = [];
         foreach ($rawData as $date) {
@@ -51,6 +65,7 @@ class DashboardController extends AbstractController
 
         return $this->render('dashboard/index.html.twig', [
             'chart' => $chart,
+            'form' => $form
         ]);
     }
 }

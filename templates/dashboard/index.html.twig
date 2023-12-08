@@ -1,5 +1,19 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme form _self %}
+
+{% block time_widget %}
+<div><span class="select">{{ form_widget(form.hour) }}</span> : <span class="select">{{ form_widget(form.minute) }}</span>   </div>
+{% endblock %}
+
+{% block date_widget %}
+<div>
+    <span class="select">{{ form_widget(form.day) }}</span>
+    <span class="select">{{ form_widget(form.month) }}</span>
+    <span class="select">{{ form_widget(form.year) }}</span>
+</div>
+{% endblock %}
+
 {% block title %}Hello DashboardController!{% endblock %}
 
 {% block body %}
@@ -7,6 +21,14 @@
     <div class="columns">
         <div class="column is-half">
             {{ render_chart(chart) }}
+        </div>
+        <div class="column is-half">
+            {{ form_start(form) }}
+            {{ form_row(form.startTime) }}
+            {{ form_row(form.endTime) }}
+            {{ form_row(form.date) }}
+            <div class="mt-4">{{ form_row(form.submit) }}</div>
+            {{ form_end(form) }}
         </div>
     </div>
 </div>
