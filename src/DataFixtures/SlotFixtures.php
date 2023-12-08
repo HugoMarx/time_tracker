@@ -14,6 +14,8 @@ class SlotFixtures extends Fixture
 
         $slotCount = 14;
 
+        $duration = [240, 320, 380, 440, 500, 560, 620];
+
         for ($i = 0; $i < $slotCount; $i++) {
 
             $slot = new Slot();
@@ -22,7 +24,7 @@ class SlotFixtures extends Fixture
             $slot->setDate($date)
             ->setStartTime($date->modify('+ 22 hours 30 minutes'))
             ->setEndTime($date->modify('+ 30 hours'))
-            ->setTotalTime(60*2);
+            ->setTotalTime($duration[array_rand($duration)]);
 
             $manager->persist($slot);
             
