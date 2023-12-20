@@ -2,8 +2,13 @@
 
 {% form_theme form _self %}
 
-{% block time_widget %}
-<div><span class="select">{{ form_widget(form.hour) }}</span> : <span class="select">{{ form_widget(form.minute) }}</span>   </div>
+{% block time_row %}
+<div class="my-4">
+    {{ form_label(form) }}
+    <div>
+    <span>{{ form_widget(form.hour) }}</span> <span class="mx-1">:</span> <span>{{ form_widget(form.minute) }}</span>
+    </div>
+</div>
 {% endblock %}
 
 {% block date_widget %}
@@ -24,9 +29,10 @@
         </div>
         <div class="column is-half">
             {{ form_start(form) }}
+            {{ form_row(form.date) }}
             {{ form_row(form.startTime) }}
             {{ form_row(form.endTime) }}
-            {{ form_row(form.date) }}
+            {{ form_row(form.stressLevel) }}         
             <div class="mt-4">{{ form_row(form.submit) }}</div>
             {{ form_end(form) }}
         </div>

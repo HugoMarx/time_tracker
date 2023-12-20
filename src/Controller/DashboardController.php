@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class DashboardController extends AbstractController
 {
-    #[Route('/dashboard', name: 'app_dashboard')]
+    #[Route('/', name: 'app_dashboard')]
     public function index(
         SlotRepository $slotRepository,
         ChartBuilderInterface $chartBuilder,
@@ -29,6 +29,8 @@ class DashboardController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            $totalTime = $form->getData()->getEndTime()->modify('+1 day')->diff($form->getData()->getStartTime());
+            $slot->setTotalTime(($totalTime->h * 60) + $totalTime->i);
             $em->persist($slot);
             $em->flush();
         }
